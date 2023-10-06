@@ -51,7 +51,35 @@ export const deleteExpenses = (id) => async (dispatch) => {
     });
   }
 };
+export const createLabourExpenses = (userData) => async (dispatch) => {
+  try {
+    dispatch({ type: "AddLabourRequest" });
+    const config = { headers: { "Content-Type": "application/json" } };
 
+    const { data } = await axios.post(
+      "/api/v1/labour/expenses",
+      userData,
+      config
+    );
+    dispatch({ type: "AddLabourSuccess", payload: data });
+  } catch (err) {
+    dispatch({ type: "AddLabourFail", payload: err.response.data.message });
+  }
+};
+export const deleteLabourExpenses = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: "DeleteLabourRequest" });
+
+    const { data } = await axios.delete(`/api/v1/delete/labour/expenses/${id}`);
+    dispatch({ type: "DeleteLabourSuccess", payload: data });
+    // console.log(userData);
+  } catch (err) {
+    dispatch({
+      type: "DeleteLabourFail",
+      payload: err.response.data.message,
+    });
+  }
+};
 export const createDeposit = (userData) => async (dispatch) => {
   try {
     dispatch({ type: "AddDepositRequest" });
@@ -77,6 +105,38 @@ export const deleteDeposit = (id) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: "DeleteDepositFail",
+      payload: err.response.data.message,
+    });
+  }
+};
+
+export const createWithdraw = (userData) => async (dispatch) => {
+  try {
+    dispatch({ type: "AddWithdrawRequest" });
+    const config = { headers: { "Content-Type": "application/json" } };
+
+    const { data } = await axios.post(
+      "/api/v1/project/withdraw",
+      userData,
+      config
+    );
+    dispatch({ type: "AddWithdrawSuccess", payload: data });
+  } catch (err) {
+    dispatch({ type: "AddWithdrawFail", payload: err.response.data.message });
+  }
+};
+export const deleteWithdraw = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: "DeleteWithdrawRequest" });
+
+    const { data } = await axios.delete(
+      `/api/v1/delete/project/withdraw/${id}`
+    );
+    dispatch({ type: "DeleteWithdrawSuccess", payload: data });
+    // console.log(userData);
+  } catch (err) {
+    dispatch({
+      type: "DeleteWithdrawFail",
       payload: err.response.data.message,
     });
   }

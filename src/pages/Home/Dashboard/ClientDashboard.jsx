@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MetaData from "../../../components/MetaData";
-import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
+import { AiOutlineSend } from "react-icons/ai";
 import ProjectTask from "../../../assets/ProjectTask.png";
 import NotProjectLine from "../../../assets/NotProjectLine.png";
 import Todo from "../../../assets/todo.png";
@@ -98,6 +98,7 @@ const ClientDashboard = () => {
   //Costing Math
   let totalExpenses = 0;
   let totalDeposit = 0;
+  let totalWithdraw = 0;
   let payable;
   let todayDeposit = 0;
 
@@ -109,6 +110,9 @@ const ClientDashboard = () => {
       totalDeposit = totalDeposit + project.clientDeposit[j].amount;
     }
     payable = project.payable - totalDeposit;
+    for (var k = 0; k < project.clientWithdraw.length; k++) {
+      totalWithdraw = totalWithdraw + project.clientWithdraw[k].amount;
+    }
   }
   const date = new Date(Date.now()).getDate();
   const month = new Date(Date.now()).getMonth();
@@ -265,9 +269,9 @@ const ClientDashboard = () => {
           <div className="w-9/12">
             <div className="flex">
               <div className="w-1/4 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
-                <p className="font-rubik text-white">Total Expenses</p>
+                <p className="font-rubik text-white">Total Debit</p>
                 <p className="mt-2 font-poppins text-2xl font-bold text-white">
-                  {totalExpenses && numberWithCommas(totalExpenses)}
+                  {totalWithdraw && numberWithCommas(totalWithdraw)}
                 </p>
               </div>
               <div className="w-1/4 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
@@ -283,42 +287,10 @@ const ClientDashboard = () => {
                 </p>
               </div>
               <div className="w-1/4 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
-                <p className="font-rubik text-white">Todays Deposit</p>
+                <p className="font-rubik text-white">Todays Credit</p>
                 <p className="mt-2 font-poppins text-2xl font-bold text-white">
                   {project && numberWithCommas(todayDeposit)}
                 </p>
-              </div>
-            </div>
-            <div className="relative mt-5 ">
-              <h4 className="mb-5 font-medium">Project line</h4>
-              <p className="absolute top-5 right-0 cursor-pointer text-xl">
-                <AiOutlinePlusCircle />
-              </p>
-              <div className="bg-gray-500 h-4 flex flex-wrap">
-                <div
-                  className="h-4 bg-blue-700 "
-                  style={{ width: `${percentigeProjectLine}%` }}
-                ></div>
-              </div>
-              <div className="flex w-full overflow-x-auto">
-                {todo.map((val, ind) => {
-                  return (
-                    <div key={ind} className="mr-2 mt-3">
-                      <div>
-                        {val.status === "Ongoing" ? (
-                          <img src={NotProjectLine} />
-                        ) : (
-                          <img src={ProjectTask} />
-                        )}
-                        {val.status === "Ongoing" ? (
-                          <p>Task {ind + 1}</p>
-                        ) : (
-                          <p className=" text-green-700">Task {ind + 1}</p>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
               </div>
             </div>
           </div>
@@ -346,6 +318,23 @@ const ClientDashboard = () => {
 
                 <p className=" text-gray-200">{payable}</p>
               </div>
+            </div>
+          </div>
+        </div>
+        {/* ============== Project Section (Client Notification) ==================*/}
+        <div className="mt-16  ">
+          <div className="w-6/12 bg-blue3 p-5 rounded-lg ">
+            <h4 className="text-white text-xl font-poppins font-medium mb-3">
+              Project Message
+            </h4>
+            <div>
+              <textarea className="w-full h-44 rounded-lg px-2"></textarea>
+              <button className="flex items-center bg-blue-900 px-5 py-1 mt-3 rounded-lg text-white btn">
+                <p className="text-lg font-medium">Send</p>
+                <p className="ml-1 btn-target">
+                  <AiOutlineSend />
+                </p>
+              </button>
             </div>
           </div>
         </div>

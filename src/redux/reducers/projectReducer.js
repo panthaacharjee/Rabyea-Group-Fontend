@@ -43,6 +43,33 @@ export const projectReducer = createReducer(initialState, {
     state.error = action.payload;
   },
 
+  AddLabourRequest: (state) => {
+    state.ploading = true;
+  },
+  AddLabourSuccess: (state, action) => {
+    state.ploading = false;
+    state.project = action.payload.project;
+    state.success = action.payload.message;
+  },
+  AddLabourFail: (state, action) => {
+    state.ploading = false;
+    state.error = action.payload;
+  },
+
+  DeleteLabourRequest: (state) => {
+    state.ploading = true;
+  },
+  DeleteLabourSuccess: (state, action) => {
+    state.ploading = false;
+    state.project = action.payload.project;
+    state.success = action.payload.message;
+  },
+  DeleteLabourFail: (state, action) => {
+    state.ploading = false;
+    state.error = action.payload;
+  },
+
+  /* Deposit */
   AddDepositRequest: (state) => {
     state.ploading = true;
   },
@@ -65,6 +92,32 @@ export const projectReducer = createReducer(initialState, {
     state.success = action.payload.message;
   },
   DeleteDepositFail: (state, action) => {
+    state.ploading = false;
+    state.error = action.payload;
+  },
+
+  AddWithdrawRequest: (state) => {
+    state.ploading = true;
+  },
+  AddWithdrawSuccess: (state, action) => {
+    state.ploading = false;
+    state.project = action.payload.project;
+    state.success = action.payload.message;
+  },
+  AddWithdrawFail: (state, action) => {
+    state.ploading = false;
+    state.error = action.payload;
+  },
+
+  DeleteWithdrawRequest: (state) => {
+    state.ploading = true;
+  },
+  DeleteWithdrawSuccess: (state, action) => {
+    state.ploading = false;
+    state.project = action.payload.project;
+    state.success = action.payload.message;
+  },
+  DeleteWithdrawFail: (state, action) => {
     state.ploading = false;
     state.error = action.payload;
   },

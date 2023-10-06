@@ -13,8 +13,12 @@ import {
   clearSuccess,
   createDeposit,
   createExpenses,
+  createLabourExpenses,
+  createWithdraw,
   deleteDeposit,
   deleteExpenses,
+  deleteLabourExpenses,
+  deleteWithdraw,
   getManagerProject,
 } from "../../../redux/actions/projectAction";
 import Loader from "../../../components/Loading";
@@ -121,7 +125,9 @@ const ManagerDashboard = () => {
 
   //Costing Math
   let totalExpenses = 0;
+  let labourExpenses = 0;
   let totalDeposit = 0;
+  let totalWitdraw = 0;
   let payable;
   let todayDeposit = 0;
 
@@ -129,8 +135,14 @@ const ManagerDashboard = () => {
     for (var i = 0; i < project.totalExpenses.length; i++) {
       totalExpenses = totalExpenses + project.totalExpenses[i].amount;
     }
+    for (var i = 0; i < project.labourExpenses.length; i++) {
+      labourExpenses = labourExpenses + project.labourExpenses[i].amount;
+    }
     for (var j = 0; j < project.clientDeposit.length; j++) {
       totalDeposit = totalDeposit + project.clientDeposit[j].amount;
+    }
+    for (var j = 0; j < project.clientWithdraw.length; j++) {
+      totalWitdraw = totalWitdraw + project.clientWithdraw[j].amount;
     }
     payable = project.payable - totalDeposit;
   }
@@ -184,7 +196,22 @@ const ManagerDashboard = () => {
     dispatch(deleteExpenses(id));
   };
 
-  //Show Add Expenses
+  //Show Add LabourExpenses
+  const [addLabourExpenses, setAddLabourExpenses] = useState(false);
+  const [ltitle, setLTitle] = useState();
+  const [lamount, setLAmount] = useState();
+  const addLabourExpensesFunc = () => {
+    const data = {
+      projectId: project._id,
+      title: ltitle,
+      amount: lamount,
+    };
+    dispatch(createLabourExpenses(data));
+  };
+  const deleteLabourExpensesFunc = (id) => {
+    dispatch(deleteLabourExpenses(id));
+  };
+  //Show Add Deposit
   const [addDeposit, setAddDeposit] = useState(false);
   const [dtitle, setDtitle] = useState();
   const [damount, setDamount] = useState();
@@ -199,6 +226,23 @@ const ManagerDashboard = () => {
   const deleteDepositFunc = (id) => {
     dispatch(deleteDeposit(id));
   };
+
+  //Show Add Withdraw
+  const [addWithdraw, setAddWithdraw] = useState(false);
+  const [wtitle, setWtitle] = useState();
+  const [wamount, setWamount] = useState();
+  const addWithdrawFunc = () => {
+    const data = {
+      projectId: project._id,
+      title: wtitle,
+      amount: wamount,
+    };
+    dispatch(createWithdraw(data));
+  };
+  const deleteWithdrawFunc = (id) => {
+    dispatch(deleteWithdraw(id));
+  };
+
   useEffect(() => {
     startTimer();
 
@@ -209,7 +253,7 @@ const ManagerDashboard = () => {
       datasets: [
         {
           label: "Cost Analysis",
-          data: [totalExpenses, plannedCost, contractAmount],
+          data: [totalExpenses + labourExpenses, plannedCost, contractAmount],
           backgroundColor: ["#191D88"],
         },
       ],
@@ -293,7 +337,7 @@ const ManagerDashboard = () => {
           <div className="w-9/12">
             <div className="flex">
               <div className="w-1/4 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
-                <p className="font-rubik text-white">Total Expenses</p>
+                <p className="font-rubik text-white">Meterial Expenses</p>
                 <p className="mt-2 font-poppins text-2xl font-bold text-white">
                   {totalExpenses && numberWithCommas(totalExpenses)}
                 </p>
@@ -311,9 +355,23 @@ const ManagerDashboard = () => {
                 </p>
               </div>
               <div className="w-1/4 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
-                <p className="font-rubik text-white">Todays Deposit</p>
+                <p className="font-rubik text-white">Todays Credit</p>
                 <p className="mt-2 font-poppins text-2xl font-bold text-white">
                   {project && numberWithCommas(todayDeposit)}
+                </p>
+              </div>
+            </div>
+            <div className="flex mt-4">
+              <div className="w-1/4 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
+                <p className="font-rubik text-white">Laobur Expenses</p>
+                <p className="mt-2 font-poppins text-2xl font-bold text-white">
+                  {labourExpenses && numberWithCommas(labourExpenses)}
+                </p>
+              </div>
+              <div className="w-1/4 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
+                <p className="font-rubik text-white">Total Debit</p>
+                <p className="mt-2 font-poppins text-2xl font-bold text-white">
+                  {totalWitdraw && numberWithCommas(totalWitdraw)}
                 </p>
               </div>
             </div>
@@ -411,7 +469,7 @@ const ManagerDashboard = () => {
           </div>
           <div className="w-4/12 flex justify-center">
             <div className="bg-blue3 w-11/12 p-5 rounded-xl ">
-              <h4 className="font-medium text-lg">Project Total Cost</h4>
+              <h4 className="font-medium text-lg">Meterial Cost</h4>
               <div className="mt-2 leading-8 h-60 overflow-y-auto">
                 {project &&
                   project.totalExpenses.map((val, ind) => {
@@ -440,33 +498,93 @@ const ManagerDashboard = () => {
           </div>
         </div>
         {/* ============== Project Section (Client Deposit) ==================*/}
-        <div className="w-4/12 flex justify-center mt-12">
-          <div className="bg-blue3 w-11/12 p-5 rounded-xl ">
-            <h4 className="font-medium text-lg">Project Total Cost</h4>
-            <div className="mt-2 leading-8 h-60 overflow-y-auto">
-              {project &&
-                project.clientDeposit.map((val, ind) => {
-                  return (
-                    <div key={ind} className="flex items-center">
-                      <img src={Todo} className="h-5 mr-2" />
-                      <p>{val.title}</p>
-                      <p className="ml-2">Amount = {val.amount}</p>
-                      <p className="ml-4 cursor-pointer">
-                        <AiOutlineMinusCircle
-                          onClick={() => deleteDepositFunc(val._id)}
-                        />
-                      </p>
-                    </div>
-                  );
-                })}
-            </div>
+        <div className="flex ">
+          <div className="w-4/12 flex justify-center mt-12">
+            <div className="bg-blue3 w-11/12 p-5 rounded-xl ">
+              <h4 className="font-medium text-lg">Project Credit</h4>
+              <div className="mt-2 leading-8 h-60 overflow-y-auto">
+                {project &&
+                  project.clientDeposit.map((val, ind) => {
+                    return (
+                      <div key={ind} className="flex items-center">
+                        <img src={Todo} className="h-5 mr-2" />
+                        <p>{val.title}</p>
+                        <p className="ml-2">Amount = {val.amount}</p>
+                        <p className="ml-4 cursor-pointer">
+                          <AiOutlineMinusCircle
+                            onClick={() => deleteDepositFunc(val._id)}
+                          />
+                        </p>
+                      </div>
+                    );
+                  })}
+              </div>
 
-            <button
-              className="bg-blue1 px-4 py-1 font-bold rounded-md mt-4 text-white"
-              onClick={() => setAddDeposit(true)}
-            >
-              Add New
-            </button>
+              <button
+                className="bg-blue1 px-4 py-1 font-bold rounded-md mt-4 text-white"
+                onClick={() => setAddDeposit(true)}
+              >
+                Add New
+              </button>
+            </div>
+          </div>
+          <div className="w-4/12 flex justify-center mt-12">
+            <div className="bg-blue3 w-11/12 p-5 rounded-xl ">
+              <h4 className="font-medium text-lg">Project Debit</h4>
+              <div className="mt-2 leading-8 h-60 overflow-y-auto">
+                {project &&
+                  project.clientWithdraw.map((val, ind) => {
+                    return (
+                      <div key={ind} className="flex items-center">
+                        <img src={Todo} className="h-5 mr-2" />
+                        <p>{val.title}</p>
+                        <p className="ml-2">Amount = {val.amount}</p>
+                        <p className="ml-4 cursor-pointer">
+                          <AiOutlineMinusCircle
+                            onClick={() => deleteWithdrawFunc(val._id)}
+                          />
+                        </p>
+                      </div>
+                    );
+                  })}
+              </div>
+
+              <button
+                className="bg-blue1 px-4 py-1 font-bold rounded-md mt-4 text-white"
+                onClick={() => setAddWithdraw(true)}
+              >
+                Add New
+              </button>
+            </div>
+          </div>
+          <div className="w-4/12 flex justify-center mt-12">
+            <div className="bg-blue3 w-11/12 p-5 rounded-xl ">
+              <h4 className="font-medium text-lg">Labour Cost</h4>
+              <div className="mt-2 leading-8 h-60 overflow-y-auto">
+                {project &&
+                  project.labourExpenses.map((val, ind) => {
+                    return (
+                      <div key={ind} className="flex items-center">
+                        <img src={Todo} className="h-5 mr-2" />
+                        <p>{val.title}</p>
+                        <p className="ml-2">Amount = {val.amount}</p>
+                        <p className="ml-4 cursor-pointer">
+                          <AiOutlineMinusCircle
+                            onClick={() => deleteLabourExpensesFunc(val._id)}
+                          />
+                        </p>
+                      </div>
+                    );
+                  })}
+              </div>
+
+              <button
+                className="bg-blue1 px-4 py-1 font-bold rounded-md mt-4 text-white"
+                onClick={() => setAddLabourExpenses(true)}
+              >
+                Add New
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -555,6 +673,74 @@ const ManagerDashboard = () => {
             <button
               className="bg-box px-8 py-1 mt-8 m-auto block text-white font-poppins font-medium"
               onClick={addDepositFunc}
+            >
+              {ploading ? <Loader /> : "ADD"}
+            </button>
+          </div>
+        </div>
+      )}
+      {addWithdraw && (
+        <div className="fixed h-full  w-full top-0 left-0 flex justify-center items-center bg-box">
+          <div className="bg-blue-500 w-5/12 p-5 rounded-xl">
+            <div className="flex items-center justify-between ">
+              <p className="font-poppins text-lg font-medium">
+                Create Client Debit
+              </p>
+              <p className="cursor-pointer text-lg font-bold">
+                <RxCross1 onClick={() => setAddWithdraw(false)} />
+              </p>
+            </div>
+            <p className="mt-5">Title</p>
+            <input
+              type="text"
+              placeholder="Enter your title"
+              className="w-full mt-2 p-2"
+              onChange={(e) => setWtitle(e.target.value)}
+            />
+            <p className="mt-5">Amount</p>
+            <input
+              type="text"
+              placeholder="Enter your amount"
+              className="w-full mt-2 p-2"
+              onChange={(e) => setWamount(e.target.value)}
+            />
+            <button
+              className="bg-box px-8 py-1 mt-8 m-auto block text-white font-poppins font-medium"
+              onClick={addWithdrawFunc}
+            >
+              {ploading ? <Loader /> : "ADD"}
+            </button>
+          </div>
+        </div>
+      )}
+      {addLabourExpenses && (
+        <div className="fixed h-full  w-full top-0 left-0 flex justify-center items-center bg-box">
+          <div className="bg-blue-500 w-5/12 p-5 rounded-xl">
+            <div className="flex items-center justify-between ">
+              <p className="font-poppins text-lg font-medium">
+                Create Labour Expenses
+              </p>
+              <p className="cursor-pointer text-lg font-bold">
+                <RxCross1 onClick={() => setAddLabourExpenses(false)} />
+              </p>
+            </div>
+            <p className="mt-5">Title</p>
+            <input
+              type="text"
+              placeholder="Enter your title"
+              className="w-full mt-2 p-2"
+              onChange={(e) => setLTitle(e.target.value)}
+            />
+            <p className="mt-5">Amount</p>
+            <input
+              type="text"
+              placeholder="Enter your amount"
+              className="w-full mt-2 p-2"
+              onChange={(e) => setLAmount(e.target.value)}
+            />
+            <button
+              className="bg-box px-8 py-1 mt-8 m-auto block text-white font-poppins font-medium"
+              onClick={addLabourExpensesFunc}
             >
               {ploading ? <Loader /> : "ADD"}
             </button>
