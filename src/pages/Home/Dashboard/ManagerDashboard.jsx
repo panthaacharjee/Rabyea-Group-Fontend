@@ -333,42 +333,42 @@ const ManagerDashboard = () => {
           </div>
         </div>
         {/* ============== Project Section (Balance Shit) ==================*/}
-        <div className="flex mt-10">
-          <div className="w-9/12">
-            <div className="flex">
-              <div className="w-1/4 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
+        <div className="flex flex-col md:flex-row mt-10">
+          <div className="w-full lg:w-9/12">
+            <div className="flex flex-col md:flex-row">
+              <div className="w-full md:w-1/4 mt-2 lg:mt-0 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
                 <p className="font-rubik text-white">Meterial Expenses</p>
                 <p className="mt-2 font-poppins text-2xl font-bold text-white">
                   {totalExpenses && numberWithCommas(totalExpenses)}
                 </p>
               </div>
-              <div className="w-1/4 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
+              <div className="w-full md:w-1/4 mt-2 lg:mt-0 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
                 <p className="font-rubik text-white">Payable BDT</p>
                 <p className="mt-2 font-poppins text-2xl font-bold text-white">
                   {project && numberWithCommas(payable)}
                 </p>
               </div>
-              <div className="w-1/4 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
+              <div className="w-full md:w-1/4 mt-2 lg:mt-0 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
                 <p className="font-rubik text-white">Receivable BDT</p>
                 <p className="mt-2 font-poppins text-2xl font-bold text-white">
                   {project && numberWithCommas(totalDeposit)}
                 </p>
               </div>
-              <div className="w-1/4 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
+              <div className="w-full md:w-1/4 mt-2 lg:mt-0 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
                 <p className="font-rubik text-white">Todays Credit</p>
                 <p className="mt-2 font-poppins text-2xl font-bold text-white">
                   {project && numberWithCommas(todayDeposit)}
                 </p>
               </div>
             </div>
-            <div className="flex mt-4">
-              <div className="w-1/4 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
+            <div className="flex flex-col md:flex-row mt-4">
+              <div className="w-full md:w-1/4 mt-2 lg:mt-0 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
                 <p className="font-rubik text-white">Laobur Expenses</p>
                 <p className="mt-2 font-poppins text-2xl font-bold text-white">
                   {labourExpenses && numberWithCommas(labourExpenses)}
                 </p>
               </div>
-              <div className="w-1/4 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
+              <div className="w-full md:w-1/4 mt-2 lg:mt-0 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
                 <p className="font-rubik text-white">Total Debit</p>
                 <p className="mt-2 font-poppins text-2xl font-bold text-white">
                   {totalWitdraw && numberWithCommas(totalWitdraw)}
@@ -408,7 +408,7 @@ const ManagerDashboard = () => {
               </div>
             </div>
           </div>
-          <div className="w-3/12 flex justify-center">
+          <div className="w-full md:w-3/12 mt-5 lg:mt-0 flex justify-center">
             <div className="w-11/12 bg-blue3  rounded-lg px-3 py-1 min-h-42">
               <div className="flex items-center justify-center">
                 <p className="text-white font-medium">Project Todo List</p>
@@ -419,9 +419,9 @@ const ManagerDashboard = () => {
               <div className="h-60 overflow-y-auto">
                 {todo.map((val, ind) => {
                   return (
-                    <div key={ind} className="flex items-center mt-3 ">
+                    <div key={ind} className="flex items-center    mt-3 ">
                       {val.status === "Ongoing" ? (
-                        <img src={Todo} className="h-5" />
+                        <img src={Todo} className="h-5 w-5" />
                       ) : (
                         <img src={CompleteTodo} className="h-5" />
                       )}
@@ -463,21 +463,29 @@ const ManagerDashboard = () => {
           </div>
         </div>
         {/* ============== Project Section (Cost & Expenses) ==================*/}
-        <div className="flex items-center mt-12">
-          <div className="w-8/12">
+        <div className="flex flex-col md:flex-row items-center mt-12">
+          <div className="w-full md:w-8/12 ">
             <BarChart chartData={data} />
           </div>
-          <div className="w-4/12 flex justify-center">
+          <div className="w-full md:w-4/12 flex justify-center mt-8 md:mt-0">
             <div className="bg-blue3 w-11/12 p-5 rounded-xl ">
               <h4 className="font-medium text-lg">Meterial Cost</h4>
               <div className="mt-2 leading-8 h-60 overflow-y-auto">
                 {project &&
                   project.totalExpenses.map((val, ind) => {
                     return (
-                      <div key={ind} className="flex items-center">
-                        <img src={Todo} className="h-5 mr-2" />
-                        <p>{val.title}</p>
-                        <p className="ml-2">Amount = {val.amount}</p>
+                      <div
+                        key={ind}
+                        className="flex items-center  mt-5 md:mt-0 "
+                      >
+                        <img
+                          src={Todo}
+                          className="h-6 w-6 md:h-5 md:w-5  mr-2"
+                        />
+                        <div className="flex flex-col md:flex-row font-bold text-lg">
+                          <p>{val.title}</p>
+                          <p className="md:ml-2">Amount = {val.amount}</p>
+                        </div>
                         <p className="ml-4 cursor-pointer">
                           <AiOutlineMinusCircle
                             onClick={() => deleteExpensesFunc(val._id)}
@@ -498,18 +506,26 @@ const ManagerDashboard = () => {
           </div>
         </div>
         {/* ============== Project Section (Client Deposit) ==================*/}
-        <div className="flex ">
-          <div className="w-4/12 flex justify-center mt-12">
+        <div className="flex flex-col md:flex-row ">
+          <div className=" w-full md:w-4/12 flex justify-center mt-12">
             <div className="bg-blue3 w-11/12 p-5 rounded-xl ">
               <h4 className="font-medium text-lg">Project Credit</h4>
               <div className="mt-2 leading-8 h-60 overflow-y-auto">
                 {project &&
                   project.clientDeposit.map((val, ind) => {
                     return (
-                      <div key={ind} className="flex items-center">
-                        <img src={Todo} className="h-5 mr-2" />
-                        <p>{val.title}</p>
-                        <p className="ml-2">Amount = {val.amount}</p>
+                      <div
+                        key={ind}
+                        className="flex items-center  mt-5 md:mt-0 "
+                      >
+                        <img
+                          src={Todo}
+                          className="h-6 w-6 md:h-5 md:w-5  mr-2"
+                        />
+                        <div className="flex flex-col md:flex-row font-bold text-lg">
+                          <p>{val.title}</p>
+                          <p className="md:ml-2">Amount = {val.amount}</p>
+                        </div>
                         <p className="ml-4 cursor-pointer">
                           <AiOutlineMinusCircle
                             onClick={() => deleteDepositFunc(val._id)}
@@ -528,17 +544,25 @@ const ManagerDashboard = () => {
               </button>
             </div>
           </div>
-          <div className="w-4/12 flex justify-center mt-12">
+          <div className="w-full lg:w-4/12 flex justify-center mt-12">
             <div className="bg-blue3 w-11/12 p-5 rounded-xl ">
               <h4 className="font-medium text-lg">Project Debit</h4>
               <div className="mt-2 leading-8 h-60 overflow-y-auto">
                 {project &&
                   project.clientWithdraw.map((val, ind) => {
                     return (
-                      <div key={ind} className="flex items-center">
-                        <img src={Todo} className="h-5 mr-2" />
-                        <p>{val.title}</p>
-                        <p className="ml-2">Amount = {val.amount}</p>
+                      <div
+                        key={ind}
+                        className="flex items-center  mt-5 md:mt-0 "
+                      >
+                        <img
+                          src={Todo}
+                          className="h-6 w-6 md:h-5 md:w-5  mr-2"
+                        />
+                        <div className="flex flex-col md:flex-row font-bold text-lg">
+                          <p>{val.title}</p>
+                          <p className="md:ml-2">Amount = {val.amount}</p>
+                        </div>
                         <p className="ml-4 cursor-pointer">
                           <AiOutlineMinusCircle
                             onClick={() => deleteWithdrawFunc(val._id)}
@@ -557,17 +581,25 @@ const ManagerDashboard = () => {
               </button>
             </div>
           </div>
-          <div className="w-4/12 flex justify-center mt-12">
+          <div className=" w-full lg:w-4/12 flex justify-center mt-12">
             <div className="bg-blue3 w-11/12 p-5 rounded-xl ">
               <h4 className="font-medium text-lg">Labour Cost</h4>
               <div className="mt-2 leading-8 h-60 overflow-y-auto">
                 {project &&
                   project.labourExpenses.map((val, ind) => {
                     return (
-                      <div key={ind} className="flex items-center">
-                        <img src={Todo} className="h-5 mr-2" />
-                        <p>{val.title}</p>
-                        <p className="ml-2">Amount = {val.amount}</p>
+                      <div
+                        key={ind}
+                        className="flex items-center  mt-5 md:mt-0 "
+                      >
+                        <img
+                          src={Todo}
+                          className="h-6 w-6 md:h-5 md:w-5  mr-2"
+                        />
+                        <div className="flex flex-col md:flex-row font-bold text-lg">
+                          <p>{val.title}</p>
+                          <p className="md:ml-2">Amount = {val.amount}</p>
+                        </div>
                         <p className="ml-4 cursor-pointer">
                           <AiOutlineMinusCircle
                             onClick={() => deleteLabourExpensesFunc(val._id)}
@@ -591,7 +623,7 @@ const ManagerDashboard = () => {
 
       {showTodoList && (
         <div className="fixed h-full  w-full top-0 left-0 flex justify-center items-center bg-box">
-          <div className="bg-blue-500 h-52 w-5/12 p-5 rounded-xl">
+          <div className="bg-blue-500 h-52 w-full md:w-5/12 mx-4 md:mx-0 p-5 rounded-xl">
             <div className="flex items-center justify-between ">
               <p className="font-poppins text-lg font-medium">Create List</p>
               <p className="cursor-pointer text-lg font-bold">
@@ -615,7 +647,7 @@ const ManagerDashboard = () => {
       )}
       {addExpenses && (
         <div className="fixed h-full  w-full top-0 left-0 flex justify-center items-center bg-box">
-          <div className="bg-blue-500  w-5/12 p-5 rounded-xl">
+          <div className="bg-blue-500  w-full md:w-5/12 mx-4 md:mx-0 p-5 rounded-xl">
             <div className="flex items-center justify-between ">
               <p className="font-poppins text-lg font-medium">Add Expenses</p>
               <p className="cursor-pointer text-lg font-bold">
@@ -647,7 +679,7 @@ const ManagerDashboard = () => {
       )}
       {addDeposit && (
         <div className="fixed h-full  w-full top-0 left-0 flex justify-center items-center bg-box">
-          <div className="bg-blue-500 w-5/12 p-5 rounded-xl">
+          <div className="bg-blue-500 w-full md:w-5/12 mx-4 md:mx-0 p-5 rounded-xl">
             <div className="flex items-center justify-between ">
               <p className="font-poppins text-lg font-medium">
                 Create Client Deposit
@@ -681,7 +713,7 @@ const ManagerDashboard = () => {
       )}
       {addWithdraw && (
         <div className="fixed h-full  w-full top-0 left-0 flex justify-center items-center bg-box">
-          <div className="bg-blue-500 w-5/12 p-5 rounded-xl">
+          <div className="bg-blue-500 w-full md:w-5/12 mx-4 md:mx-0 p-5 rounded-xl">
             <div className="flex items-center justify-between ">
               <p className="font-poppins text-lg font-medium">
                 Create Client Debit
@@ -715,7 +747,7 @@ const ManagerDashboard = () => {
       )}
       {addLabourExpenses && (
         <div className="fixed h-full  w-full top-0 left-0 flex justify-center items-center bg-box">
-          <div className="bg-blue-500 w-5/12 p-5 rounded-xl">
+          <div className="bg-blue-500 w-full md:w-5/12 mx-4 md:mx-0 p-5 rounded-xl">
             <div className="flex items-center justify-between ">
               <p className="font-poppins text-lg font-medium">
                 Create Labour Expenses

@@ -14,9 +14,11 @@ import {
   clientReducer,
   employeeReducer,
   hrProjectReducer,
+  notificationReducer,
   projectUserReducer,
   salaryReducer,
 } from "./reducers/hrReducer";
+import { clientNotificationReducer } from "./reducers/clientReducer";
 
 const store = configureStore({
   reducer: {
@@ -35,6 +37,8 @@ const store = configureStore({
     projectUser: projectUserReducer,
     hrProject: hrProjectReducer,
     salary: salaryReducer,
+    notification: notificationReducer,
+    clientNotification: clientNotificationReducer,
   },
 });
 

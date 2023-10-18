@@ -48,7 +48,7 @@ const SingleEmployee = () => {
       <div className="flex justify-center pt-20 mb-5">
         <MetaData title={`${singleEmployee && singleEmployee.name}`} />
 
-        <div className=" bg-white shadow-btn rounded-xl w-4/12">
+        <div className=" bg-white shadow-btn rounded-xl w-10/12 md:w-4/12">
           <div className="rounded-md  py-5 px-5">
             <div className="flex justify-center">
               <label className="cursor-pointer">
@@ -153,7 +153,7 @@ const SingleEmployee = () => {
       </div>
       {showDelete && (
         <div className="fixed z-50 w-full h-screen top-0 left-0 bg-box1 flex justify-center items-center">
-          <div className="w-3/12 bg-blue1 px-5 py-6 rounded-xl">
+          <div className="w-10/12 md:w-3/12 bg-blue1 px-5 py-6 rounded-xl">
             <p className="text-white font-poppins text-lg">Are You Sure?</p>
             <div className="flex ">
               <button

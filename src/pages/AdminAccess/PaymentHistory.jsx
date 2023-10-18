@@ -32,9 +32,9 @@ const PaymentHistory = () => {
     dispatch(getAllWithdraw());
   }, [allDeposit, allWithdraw]);
   return (
-    <div className="px-3 sm:px-12 md:px-12 pt-14 md:py-20">
+    <div className="px-5  sm:px-12 md:px-12 pt-16 md:py-20">
       <div className="w-full flex justify-center">
-        <div className="bg-blue1 px-5 py-4 w-4/12 rounded-lg">
+        <div className="bg-blue1 px-5 py-4 w-full md:w-6/12 lg:4/12 rounded-lg">
           <p className="text-xl text-white text-center border-2 border-slate-100 rounded-lg py-2">
             Withraw & Deposit Summary
           </p>
@@ -48,8 +48,8 @@ const PaymentHistory = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-between mt-20">
-        <div className="bg-blue1 w-5/12 p-5 rounded-xl">
+      <div className="flex justify-between flex-col md:flex-row mt-20">
+        <div className="bg-blue1 w-full  md:w-6/12 lg:w-5/12   p-4 rounded-xl">
           <p className="text-lg text-white text-center border-2 border-slate-100 py-2 rounded-lg">
             Deposit History
           </p>
@@ -68,7 +68,7 @@ const PaymentHistory = () => {
             </Link>
           </div>
         </div>
-        <div className="bg-blue1 w-5/12 p-5 rounded-xl h-fit">
+        <div className="bg-blue1 w-full md:w-6/12  lg:w-5/12 mt-4 md:mt-0 md:ml-2  p-4 rounded-xl h-fit">
           <p className="text-lg text-white text-center border-2 border-slate-100 py-2 rounded-lg">
             Withdraw History
           </p>

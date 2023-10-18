@@ -38,6 +38,8 @@ import SingleClient from "./pages/HrAccess/SingleClient";
 import SingleEmployee from "./pages/HrAccess/SingleEmployee";
 import UpdateEmployee from "./pages/HrAccess/UpdateEmployee";
 import SalaryDistribution from "./pages/HrAccess/SalaryDistribution";
+import SingleProject from "./pages/HrAccess/SingleProject";
+import Notification from "./pages/HrAccess/Notification";
 TimeAgo.addDefaultLocale(en);
 TimeAgo.addLocale(ru);
 
@@ -152,6 +154,17 @@ function App() {
         />
         <Route
           exact
+          path="/project/:id"
+          element={
+            <ProtectedRoute>
+              <RoleRoute role="Hr">
+                <SingleProject />
+              </RoleRoute>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          exact
           path="/create/client"
           element={
             <ProtectedRoute>
@@ -198,6 +211,17 @@ function App() {
             <ProtectedRoute>
               <RoleRoute role="Hr">
                 <SalaryDistribution />
+              </RoleRoute>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          exact
+          path="/notification"
+          element={
+            <ProtectedRoute>
+              <RoleRoute role="Hr">
+                <Notification />
               </RoleRoute>
             </ProtectedRoute>
           }

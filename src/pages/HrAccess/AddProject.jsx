@@ -59,7 +59,7 @@ const AddProject = () => {
       <MetaData title={"Create Project"} />
       <form
         onSubmit={handleAddProject}
-        className=" bg-white shadow-btn rounded-xl w-4/12"
+        className=" bg-white shadow-btn rounded-xl w-10/12 md:w-4/12"
       >
         <p className="mt-5 text-center text-lg font-poppins font-medium">
           Create Project

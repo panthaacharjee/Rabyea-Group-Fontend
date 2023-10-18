@@ -23,7 +23,7 @@ const AllClient = () => {
       <MetaData title={"All Client"} />
       <div className="mt-5 bg-blue2 rounded-lg px-5 py-2 text-white flex justify-between items-center relative">
         <h3 className=" text-xl font-poppins font-bold">All Client</h3>
-        <form onSubmit={handleClick} className="w-3/12">
+        <form onSubmit={handleClick} className="w-6/12 md:w-3/12">
           <input
             type="text"
             placeholder="search a client"
@@ -40,7 +40,7 @@ const AllClient = () => {
           Wait................
         </p>
       ) : (
-        <div className="flex  mt-10">
+        <div className="flex  flex-col md:flex-row mt-10">
           {client && client.length <= 0 ? (
             <p className="mt-5">No Client Found</p>
           ) : null}
@@ -50,7 +50,7 @@ const AllClient = () => {
                 <Link
                   to={`/client/${val._id}`}
                   key={ind}
-                  className="flex  w-3/12"
+                  className="flex  w-full md:w-3/12"
                 >
                   <div className="w-full mr-2 bg-blue3 rounded-2xl">
                     <div>

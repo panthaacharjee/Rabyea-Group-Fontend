@@ -47,6 +47,11 @@ const HrSidebar = ({ showSidebar }) => {
               Salary Distribution
             </Link>
           </li>
+          <li className=" hover:bg-blue-300 cursor-pointer pl-2 rounded-lg text-white hover:text-black hover:font-bold">
+            <Link className="block py-3" to="/notification">
+              Notification
+            </Link>
+          </li>
         </div>
       )}
     </>

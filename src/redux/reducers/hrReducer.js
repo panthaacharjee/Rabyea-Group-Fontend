@@ -196,6 +196,18 @@ export const hrProjectReducer = createReducer(initialState, {
     state.error = action.payload;
   },
 
+  GetSingleProjectRequest: (state) => {
+    state.loading = true;
+  },
+  GetSingleProjectSuccess: (state, action) => {
+    state.loading = false;
+    state.project = action.payload;
+  },
+  GetSingleProjectFail: (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+  },
+
   ClearErrors: (state) => {
     state.error = null;
   },
@@ -219,6 +231,46 @@ export const salaryReducer = createReducer(initialState, {
 
   ClearErrors: (state) => {
     state.error = null;
+  },
+  ClearSuccess: (state) => {
+    state.success = null;
+  },
+});
+
+export const notificationReducer = createReducer(initialState, {
+  GetAdminNotificationRequest: (state) => {
+    state.loading = true;
+  },
+  GetAdminNotificationSuccess: (state, action) => {
+    state.loading = false;
+    state.adminNotification = action.payload.adminNotification;
+  },
+  GetAdminNotificationFail: (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+  },
+  GetManagerNotificationRequest: (state) => {
+    state.loading = true;
+  },
+  GetManagerNotificationSuccess: (state, action) => {
+    state.loading = false;
+    state.managerNotification = action.payload.managerNotification;
+  },
+  GetManagerNotificationFail: (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+  },
+
+  GetClientNotificationRequest: (state) => {
+    state.loading = true;
+  },
+  GetClientNotificationSuccess: (state, action) => {
+    state.loading = false;
+    state.clientNotification = action.payload.clientNotification;
+  },
+  GetClientNotificationFail: (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
   },
   ClearSuccess: (state) => {
     state.success = null;

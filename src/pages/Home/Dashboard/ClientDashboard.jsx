@@ -20,6 +20,7 @@ import Loader from "../../../components/Loading";
 import { toast } from "react-toastify";
 import FullLoading from "../../../components/FullLoading";
 import BarChart from "../../../components/BarChart";
+import { createClientNotification } from "../../../redux/actions/clientAction";
 
 const ClientDashboard = () => {
   const dispatch = useDispatch();
@@ -160,6 +161,21 @@ const ClientDashboard = () => {
     ],
   });
   // console.log(project.clientDeposit);
+
+  //Client Notification
+  const { cnsuccess, cnerror, cnloading } = useSelector(
+    (state) => state.clientNotification
+  );
+  const [message, setMessage] = useState();
+  const handleNotification = () => {
+    let data = {
+      clientId: user._id,
+      projectId: project._id,
+      message: message,
+    };
+    dispatch(createClientNotification(data));
+  };
+
   useEffect(() => {
     startTimer();
 
@@ -201,7 +217,17 @@ const ClientDashboard = () => {
       toast(error);
       dispatch(clearError());
     }
-  }, [todo, error, success, project]);
+
+    //Notification
+    if (cnsuccess) {
+      toast(cnsuccess);
+    }
+    dispatch(clearSuccess());
+    if (cnerror) {
+      toast(cnerror);
+      dispatch(clearError());
+    }
+  }, [todo, error, success, project, cnsuccess, cnerror]);
 
   return (
     <>
@@ -265,28 +291,28 @@ const ClientDashboard = () => {
           </div>
         </div>
         {/* ============== Project Section (Balance Shit) ==================*/}
-        <div className="flex mt-10">
-          <div className="w-9/12">
-            <div className="flex">
-              <div className="w-1/4 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
+        <div className="flex flex-col md:flex-row mt-10">
+          <div className="w-full md:w-9/12">
+            <div className="flex flex-col md:flex-row">
+              <div className="w-full md:w-1/4 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
                 <p className="font-rubik text-white">Total Debit</p>
                 <p className="mt-2 font-poppins text-2xl font-bold text-white">
                   {totalWithdraw && numberWithCommas(totalWithdraw)}
                 </p>
               </div>
-              <div className="w-1/4 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
+              <div className="w-full md:w-1/4 mt-5 md:mt-0 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
                 <p className="font-rubik text-white">Payable BDT</p>
                 <p className="mt-2 font-poppins text-2xl font-bold text-white">
                   {project && numberWithCommas(payable)}
                 </p>
               </div>
-              <div className="w-1/4 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
+              <div className="w-full md:w-1/4 mt-5 md:mt-0 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
                 <p className="font-rubik text-white">Receivable BDT</p>
                 <p className="mt-2 font-poppins text-2xl font-bold text-white">
                   {project && numberWithCommas(totalDeposit)}
                 </p>
               </div>
-              <div className="w-1/4 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
+              <div className="w-full md:w-1/4 mt-5 md:mt-0 bg-blue-900 mr-5 rounded-lg h-24 text-center py-2">
                 <p className="font-rubik text-white">Todays Credit</p>
                 <p className="mt-2 font-poppins text-2xl font-bold text-white">
                   {project && numberWithCommas(todayDeposit)}
@@ -296,11 +322,11 @@ const ClientDashboard = () => {
           </div>
         </div>
         {/* ============== Project Section (Client All Deposit) ==================*/}
-        <div className="mt-16 flex ">
-          <div className="w-8/12">
+        <div className="mt-16 flex flex-col md:flex-row ">
+          <div className="w-full md:w-8/12">
             <BarChart chartData={data} />
           </div>
-          <div className="w-4/12 flex justify-center items-start">
+          <div className="w-full md:w-4/12 mt-5 md:mt-0 flex justify-center items-start">
             <div className="bg-blue3 px-5 py-7 w-10/12 rounded-lg leading-8">
               <h4 className="text-white font-poppins font-medium mb-3">
                 Payment Ledger Summary
@@ -323,17 +349,29 @@ const ClientDashboard = () => {
         </div>
         {/* ============== Project Section (Client Notification) ==================*/}
         <div className="mt-16  ">
-          <div className="w-6/12 bg-blue3 p-5 rounded-lg ">
+          <div className="w-full md:w-6/12 bg-blue3 p-5 rounded-lg ">
             <h4 className="text-white text-xl font-poppins font-medium mb-3">
               Project Message
             </h4>
             <div>
-              <textarea className="w-full h-44 rounded-lg px-2"></textarea>
-              <button className="flex items-center bg-blue-900 px-5 py-1 mt-3 rounded-lg text-white btn">
-                <p className="text-lg font-medium">Send</p>
-                <p className="ml-1 btn-target">
-                  <AiOutlineSend />
-                </p>
+              <textarea
+                className="w-full h-44 rounded-lg px-2"
+                onChange={(e) => setMessage(e.target.value)}
+              ></textarea>
+              <button
+                className=" bg-blue-900 px-5 py-1 mt-3 rounded-lg text-white btn cursor-pointer"
+                onClick={handleNotification}
+              >
+                {cnloading ? (
+                  <Loader />
+                ) : (
+                  <label className="flex items-center">
+                    <p className="text-lg font-medium cursor-pointer">Send</p>
+                    <p className="ml-1 btn-target cursor-pointer">
+                      <AiOutlineSend />
+                    </p>
+                  </label>
+                )}
               </button>
             </div>
           </div>

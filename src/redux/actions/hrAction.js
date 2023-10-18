@@ -207,15 +207,25 @@ export const getProject = (keyword) => async (dispatch) => {
   try {
     dispatch({ type: "GetProjectRequest" });
 
-    const { data } = await axios.get(
-      `/api/v1/get/project?keyword=${keyword}`,
-      userData,
-      config
-    );
+    const { data } = await axios.get(`/api/v1/get/project?keyword=${keyword}`);
     dispatch({ type: "GetProjectSuccess", payload: data });
   } catch (err) {
     dispatch({
       type: "GetProjectFail",
+      payload: err.response.data.message,
+    });
+  }
+};
+
+export const getSingleProject = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: "GetSingleProjectRequest" });
+
+    const { data } = await axios.get(`/api/v1/get/project/${id}`);
+    dispatch({ type: "GetSingleProjectSuccess", payload: data.project });
+  } catch (err) {
+    dispatch({
+      type: "GetSingleProjectFail",
       payload: err.response.data.message,
     });
   }
@@ -235,6 +245,46 @@ export const createSalary = (userData) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: "CreateSalaryFail",
+      payload: err.response.data.message,
+    });
+  }
+};
+
+export const getAdminNotification = () => async (dispatch) => {
+  try {
+    dispatch({ type: "GetAdminNotificationRequest" });
+
+    const { data } = await axios.get("/api/v1/admin/notification");
+    dispatch({ type: "GetAdminNotificationSuccess", payload: data });
+  } catch (err) {
+    dispatch({
+      type: "GetAdminNotificationFail",
+      payload: err.response.data.message,
+    });
+  }
+};
+export const getManagerNotification = () => async (dispatch) => {
+  try {
+    dispatch({ type: "GetManagerNotificationRequest" });
+
+    const { data } = await axios.get("/api/v1/maneger/notification");
+    dispatch({ type: "GetManagerNotificationSuccess", payload: data });
+  } catch (err) {
+    dispatch({
+      type: "GetManagerNotificationFail",
+      payload: err.response.data.message,
+    });
+  }
+};
+export const getClientNotification = () => async (dispatch) => {
+  try {
+    dispatch({ type: "GetClientNotificationRequest" });
+
+    const { data } = await axios.get("/api/v1/get/client/notification");
+    dispatch({ type: "GetClientNotificationSuccess", payload: data });
+  } catch (err) {
+    dispatch({
+      type: "GetClientNotificationFail",
       payload: err.response.data.message,
     });
   }
