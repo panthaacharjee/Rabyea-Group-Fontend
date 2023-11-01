@@ -183,19 +183,28 @@ const ManagerDashboard = () => {
   //Show Add Expenses
   const [addExpenses, setAddExpenses] = useState(false);
   const [title, setTitle] = useState();
-  const [amount, setAmount] = useState();
+  const [uom, setUom] = useState();
+  const [qty, setQty] = useState(1);
+  const [unit, setUnit] = useState(0.0);
+  const [remarks, setRemarks] = useState();
+  const [amount, setAmount] = useState(0);
+
   const addExpensesFunc = () => {
     const data = {
       projectId: project._id,
       title: title,
-      amount: amount,
+      uom: uom,
+      qty: qty,
+      unit: parseFloat(unit),
+      amount: parseFloat(amount),
+      remarks: remarks,
     };
     dispatch(createExpenses(data));
   };
   const deleteExpensesFunc = (id) => {
     dispatch(deleteExpenses(id));
   };
-
+  console.log(parseFloat(unit));
   //Show Add LabourExpenses
   const [addLabourExpenses, setAddLabourExpenses] = useState(false);
   const [ltitle, setLTitle] = useState();
@@ -467,42 +476,65 @@ const ManagerDashboard = () => {
           <div className="w-full md:w-8/12 ">
             <BarChart chartData={data} />
           </div>
-          <div className="w-full md:w-4/12 flex justify-center mt-8 md:mt-0">
-            <div className="bg-blue3 w-11/12 p-5 rounded-xl ">
-              <h4 className="font-medium text-lg">Meterial Cost</h4>
-              <div className="mt-2 leading-8 h-60 overflow-y-auto">
-                {project &&
-                  project.totalExpenses.map((val, ind) => {
-                    return (
-                      <div
-                        key={ind}
-                        className="flex items-center  mt-5 md:mt-0 "
-                      >
-                        <img
-                          src={Todo}
-                          className="h-6 w-6 md:h-5 md:w-5  mr-2"
+        </div>
+        <div className="w-full   mt-20 ">
+          <div className="bg-blue3 w-full p-5 rounded-xl ">
+            <h4 className="font-medium text-lg">Meterial Cost</h4>
+            <table className="mt-2 w-full leading-8  overflow-y-auto text-center">
+              <tr>
+                <th className="border-2 border-black bg-blue2 text-center">
+                  Serial No.
+                </th>
+                <th className="border-2 border-black bg-blue2 text-center">
+                  Description
+                </th>
+                <th className="border-2 border-black bg-blue2 text-center">
+                  UOM
+                </th>
+                <th className="border-2 border-black bg-blue2 text-center">
+                  Quantity
+                </th>
+                <th className="border-2 border-black bg-blue2 text-center">
+                  Unit Price
+                </th>
+                <th className="border-2 border-black bg-blue2 text-center">
+                  Amount
+                </th>
+                <th className="border-2 border-black bg-blue2 text-center">
+                  Remarks
+                </th>
+                <th className="border-2 border-black bg-blue2 text-center">
+                  Action
+                </th>
+              </tr>
+              {project &&
+                project.totalExpenses.map((val, ind) => {
+                  return (
+                    <tr key={ind} className="  mt-5 md:mt-0 ">
+                      <td className="border-2 border-black">{ind + 1}</td>
+                      <td className="border-2 border-black">{val.title}</td>
+                      <td className="border-2 border-black">{val.uom}</td>
+                      <td className="border-2 border-black">{val.qty}</td>
+                      <td className="border-2 border-black">{val.unitPrice}</td>
+                      <td className="border-2 border-black">{val.amount}</td>
+                      <td className="border-2 border-black">{val.remarks}</td>
+                      <td className=" border-2 border-black ">
+                        <AiOutlineMinusCircle
+                          onClick={() => deleteExpensesFunc(val._id)}
+                          className="block m-auto cursor-pointer"
                         />
-                        <div className="flex flex-col md:flex-row font-bold text-lg">
-                          <p>{val.title}</p>
-                          <p className="md:ml-2">Amount = {val.amount}</p>
-                        </div>
-                        <p className="ml-4 cursor-pointer">
-                          <AiOutlineMinusCircle
-                            onClick={() => deleteExpensesFunc(val._id)}
-                          />
-                        </p>
-                      </div>
-                    );
-                  })}
-              </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </table>
 
-              <button
-                className="bg-blue1 px-4 py-1 font-bold rounded-md mt-4 text-white"
-                onClick={() => setAddExpenses(true)}
-              >
-                Add New
-              </button>
-            </div>
+            <button
+              className="bg-blue1 px-4 py-1 font-bold rounded-md mt-4 text-white"
+              onClick={() => setAddExpenses(true)}
+            >
+              Add New
+            </button>
           </div>
         </div>
         {/* ============== Project Section (Client Deposit) ==================*/}
@@ -647,27 +679,75 @@ const ManagerDashboard = () => {
       )}
       {addExpenses && (
         <div className="fixed h-full  w-full top-0 left-0 flex justify-center items-center bg-box">
-          <div className="bg-blue-500  w-full md:w-5/12 mx-4 md:mx-0 p-5 rounded-xl">
+          <div className="bg-blue-500  w-full md:w-5/12 mx-4 md:mx-0 p-5 rounded-xl h-5/6 mt-10   ">
             <div className="flex items-center justify-between ">
               <p className="font-poppins text-lg font-medium">Add Expenses</p>
               <p className="cursor-pointer text-lg font-bold">
                 <RxCross1 onClick={() => setAddExpenses(false)} />
               </p>
             </div>
-            <p className="mt-5">Title</p>
-            <input
-              type="text"
-              placeholder="Enter your title"
-              className="w-full mt-2 p-2"
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <p className="mt-5">Amount</p>
-            <input
-              type="text"
-              placeholder="Enter your amount"
-              className="w-full mt-2 p-2"
-              onChange={(e) => setAmount(e.target.value)}
-            />
+            <div className="overflow-y-scroll h-5/6">
+              <div>
+                <p className="mt-2">Title</p>
+                <textarea
+                  type="text"
+                  placeholder="Enter your title"
+                  className="w-full  mt-2 p-2"
+                  onChange={(e) => setTitle(e.target.value)}
+                  required
+                  rows={8}
+                />
+              </div>
+              <div>
+                <p className="mt-2">UOM</p>
+                <input
+                  type="text"
+                  placeholder="enter uom---"
+                  className="w-full mt-2 p-2"
+                  onChange={(e) => setUom(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <p className="mt-2">Quantity</p>
+                <input
+                  type="text"
+                  placeholder="enter qty"
+                  className="w-full mt-2 p-2"
+                  onChange={(e) => setQty(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <p className="mt-2">Unit Price</p>
+                <input
+                  type="text"
+                  placeholder="enter unit price"
+                  className="w-full mt-2 p-2"
+                  onChange={(e) => setUnit(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <p className="mt-2">Total Price</p>
+                <input
+                  type="text"
+                  placeholder="Enter your amount"
+                  className="w-full mt-2 p-2"
+                  onChange={(e) => setAmount(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <p className="mt-2">Remarks</p>
+                <input
+                  type="text"
+                  placeholder="enter remarks"
+                  className="w-full mt-2 p-2"
+                  onChange={(e) => setRemarks(e.target.value)}
+                />
+              </div>
+            </div>
             <button
               className="bg-box px-8 py-1 mt-8 m-auto block text-white font-poppins font-medium"
               onClick={addExpensesFunc}

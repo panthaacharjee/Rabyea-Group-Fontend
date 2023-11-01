@@ -35,6 +35,13 @@ const AllEmployee = () => {
           <BiSearchAlt2 />
         </p>
       </div>
+      <a
+        href="D:/My Project/Mern Project/Rabeya-Group/docs/meterial-expenses0.2129779600276398_doc.pdf"
+        download
+        className="text-red"
+      >
+        Download
+      </a>
       {aloading === true ? (
         <p className="text-md font-bold text-black font-poppins mt-5">
           Wait................

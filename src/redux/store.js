@@ -19,6 +19,7 @@ import {
   salaryReducer,
 } from "./reducers/hrReducer";
 import { clientNotificationReducer } from "./reducers/clientReducer";
+import { pdfReducer } from "./reducers/pdfReducer";
 
 const store = configureStore({
   reducer: {
@@ -39,6 +40,7 @@ const store = configureStore({
     salary: salaryReducer,
     notification: notificationReducer,
     clientNotification: clientNotificationReducer,
+    pdf: pdfReducer,
   },
 });
 

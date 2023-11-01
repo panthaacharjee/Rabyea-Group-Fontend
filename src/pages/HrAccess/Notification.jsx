@@ -111,9 +111,9 @@ const Notification = () => {
     dispatch(getClientNotification());
   }, []);
   return (
-    <div className="px-3 sm:px-12 md:px-12 pt-14 md:py-20">
-      <div className="flex">
-        <div className="w-6/12 bg-blue-50 relative min-h-40">
+    <div className="px-3 sm:px-12 md:px-12 py-20 ">
+      <div className="flex flex-col md:flex-row">
+        <div className="w-full md:w-6/12 bg-blue-50 relative min-h-40">
           <div className="bg-slate-600 py-1 flex items-center">
             <h4 className="  text-center font-bold text-white text-xl w-full">
               Admin Notification
@@ -122,7 +122,7 @@ const Notification = () => {
           <table className="w-full mb-9">
             <tr>
               <th className="border-2  border-blue-400 text-center">Name</th>
-              <th className="border-2  border-blue-400 text-center">Code</th>
+
               <th className="border-2  border-blue-400 text-center">Message</th>
               <th className="border-2  border-blue-400 text-center">Amount</th>
               <th className="border-2  border-blue-400 text-center">Date</th>
@@ -134,9 +134,7 @@ const Notification = () => {
                     <td className="border-2  border-blue-400 text-center">
                       {val.sender.name}
                     </td>
-                    <td className="border-2  border-blue-400 text-center">
-                      {val.sender.activeProject}
-                    </td>
+
                     <td className="border-2  border-blue-400 text-center">
                       {val.message}
                     </td>
@@ -166,7 +164,7 @@ const Notification = () => {
             </p>
           </div>
         </div>
-        <div className="w-6/12 bg-blue-50 relative min-h-40 ml-2">
+        <div className="w-full md:w-6/12 bg-blue-50 relative min-h-40 md:ml-2 mt-5 md:mt-0">
           <div className="bg-slate-600 py-1 flex items-center">
             <h4 className="  text-center font-bold text-white text-xl w-full">
               Manager Notification
@@ -188,7 +186,7 @@ const Notification = () => {
                       {val.sender.name}
                     </td>
                     <td className="border-2  border-blue-400 text-center">
-                      {val.sender.code}
+                      {val.sender.activeProject.code}
                     </td>
                     <td className="border-2  border-blue-400 text-center">
                       {val.message}
@@ -220,13 +218,14 @@ const Notification = () => {
           </div>
         </div>
       </div>
-      <div className="w-full bg-blue-50 relative h-40 mt-5">
+
+      <div className="w-full bg-blue-50 relative h-36  mt-5">
         <div className="bg-slate-600 py-1 flex items-center">
           <h4 className="  text-center font-bold text-white text-xl w-full">
             Client Notification
           </h4>
         </div>
-        <table className="w-full mb-8">
+        <table className="w-full   mb-9 ">
           <tr>
             <th className="border-2  border-blue-400 text-center">Name</th>
             <th className="border-2  border-blue-400 text-center">
@@ -261,7 +260,7 @@ const Notification = () => {
               );
             })}
         </table>
-        <div className="flex justify-center py-1 bg-blue-400 absolute  bottom-0 w-full">
+        <div className="flex justify-center py-1  mt-2  bg-blue-400 absolute  bottom-0 w-full">
           <p
             className="w-24 bg-white text-center rounded-sm cursor-pointer"
             onClick={nPrevious}

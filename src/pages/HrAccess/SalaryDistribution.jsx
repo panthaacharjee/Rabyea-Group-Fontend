@@ -87,8 +87,8 @@ const SalaryDistribution = () => {
     <>
       <div className="px-3 sm:px-12 md:px-12 pt-14 md:py-20">
         <MetaData title={"Salary Distribution"} />
-        <div className="mt-5   flex  items-center relative">
-          <div className="bg-blue1 w-3/12 mr-1 h-24 rounded-lg px-3 py-5 text-center">
+        <div className="mt-5   flex  flex-col md:flex-row items-center relative">
+          <div className="bg-blue1 w-full md:w-3/12 mr-1 h-24 rounded-lg px-3 py-5 text-center">
             <p className="text-white text-lg font-medium font-poppins">
               Total Salary
             </p>
@@ -96,7 +96,7 @@ const SalaryDistribution = () => {
               {totalSalary && numberWithCommas(totalSalary)}
             </p>
           </div>
-          <div className="bg-blue1 w-3/12 mr-1 h-24 rounded-lg px-3 py-5 text-center">
+          <div className="bg-blue1 w-full md:w-3/12 mt-5 md:mt-0 mr-1 h-24 rounded-lg px-3 py-5 text-center">
             <p className="text-white text-lg font-medium font-poppins">
               Total approved
             </p>
@@ -107,7 +107,7 @@ const SalaryDistribution = () => {
                 )}
             </p>
           </div>
-          <div className="bg-blue1 w-3/12 mr-1 h-24 rounded-lg px-3 py-5 text-center">
+          <div className="bg-blue1 w-full md:w-3/12 mt-5 md:mt-0 mr-1 h-24 rounded-lg px-3 py-5 text-center">
             <p className="text-white text-lg font-medium font-poppins">
               Pending
             </p>
@@ -115,7 +115,7 @@ const SalaryDistribution = () => {
               {totalAproved && numberWithCommas(totalAproved.length)}
             </p>
           </div>
-          <div className="bg-blue1 w-3/12 h-24 rounded-lg px-3 py-5 text-center">
+          <div className="bg-blue1 w-full md:w-3/12 mt-5 md:mt-0 h-24 rounded-lg px-3 py-5 text-center">
             <p className="text-white text-lg font-medium font-poppins">
               Total pending Amount
             </p>
@@ -124,14 +124,14 @@ const SalaryDistribution = () => {
             </p>
           </div>
         </div>
-        <div className="flex  mt-10">
+        <div className="flex flex-col md:flex-row  mt-10">
           {employee && employee.length <= 0 ? (
             <p className="mt-5">No Employee Found</p>
           ) : null}
           {employee &&
             employee.map((val, ind) => {
               return (
-                <div key={ind} className="flex  w-2/12">
+                <div key={ind} className="flex  w-full md:w-2/12">
                   <div className="w-full mr-2 bg-blue3 rounded-2xl">
                     <div>
                       {val.avatar ? (
